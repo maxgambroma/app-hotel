@@ -233,7 +233,43 @@ class Prezzi_disponibilita_model extends CI_Model {
         $return = $query->result();
         return $return;
     }
+    
+    
+    /**
+     * trovo il prezzo per l'evento 
+     * da modificare con la data evento ora non iserita
+     * @param type $T1
+     * @param type $hotel_id
+     * @param type $today
+     * @param type $ref_event
+     * @return type
+     */
+    
+        public function  prezzo_eventi($T1,$hotel_id, $today, $ref_event ){
 
+        $sql = "
+         SELECT
+        listino_obmp.listino_nome_id,
+        listino_obmp.tipologia_id,
+        listino_obmp.hotel_id,
+        listino_obmp.listino_prezzo,
+        obmp_ref_event.listino_nome_id,
+        obmp_ref_event.ref_event_id,
+        obmp_ref_event.hotel_id
+        FROM
+        obmp_ref_event
+        INNER JOIN listino_obmp ON (obmp_ref_event.listino_nome_id = listino_obmp.listino_nome_id)
+        WHERE   (listino_obmp.tipologia_id = '$T1') AND
+        (listino_obmp.hotel_id = '$hotel_id') AND
+        (obmp_ref_event.ref_event_id = '$ref_event')
+            ";
+
+        $query = $this->db->query($sql);
+        $return = $query->result();
+        return $return;
+    }
+    
+        
     /**
      * Tetemino le tipologie di camare prenotate 
      * @param type $hotel_id
@@ -338,7 +374,6 @@ class Prezzi_disponibilita_model extends CI_Model {
             }
 
 
-
             //echo "<pre>";print_r($disponibilita);
             if (count($arrivi) > 0) {
                 $tot_camere_in_arrivo = (int) $arrivi['0']->somma_q1 +
@@ -420,35 +455,28 @@ class Prezzi_disponibilita_model extends CI_Model {
      * 
      * @return array
      */
-    function prezzo_hotel($hotel_id, $today, $includi_prezzi = 0) {
+    function prezzo_hotel($hotel_id, $today, $includi_prezzi = 0, $ref_event = NULL) {
 
         $now = date('Y-m-d');
 
 
         // Utilizzo rs_hotel per estrarre i dati che mi interessano
         $this->rs_hotel = $this->rs_hotel($hotel_id);
-
         $this->hotel_numero_camere = $this->rs_hotel->hotel_numero_camere;
-
         $this->diff_gg_preno = $this->data_diff($today, $now);
-
         $this->hotel_tarif_cambia_gg = $this->rs_hotel->hotel_tarif_cambia_gg;
         $this->hotel_disp_modo = $this->rs_hotel->hotel_disp_modo;
         // Fine di utilizzo rs_hotel
         // 
         // Calcolo il totale delle camere in arrivo oggi
-
         $this->tot_cam_in_arrivo = $this->camere_in_arrivo($hotel_id, $today, $now);
-
         $this->tot_cam_in_opzione = $this->camere_in_opzione($hotel_id, $today, $now);
-
         $this->tot_cam_presenti = $this->camere_presenti($hotel_id, $today, $now);
-
         $this->tot_cam_occupate = $this->camere_occupate($this->tot_cam_in_arrivo, $this->tot_cam_presenti, $this->tot_cam_in_opzione);
         $this->tot_cam_libere = $this->camere_libere($this->hotel_numero_camere, $this->tot_cam_occupate);
         $this->tot_occ_percetuale_hotel = $this->occ_percentuale_hotel();
 
-
+// colori occupazione
         if ($this->tot_occ_percetuale_hotel > 0.66 && $this->tot_cam_libere > 4) {
             $style = "yellow";
         } elseif ($this->tot_occ_percetuale_hotel <= 0.66 && $this->tot_occ_percetuale_hotel > 0.33) {
@@ -462,7 +490,6 @@ class Prezzi_disponibilita_model extends CI_Model {
 // inizio i prezzi 
 
         $tipologia_camere = $this->rs_tip_camere($hotel_id);
-
 
         $prezzo = array();
         $totale_prezzo = array();
@@ -484,6 +511,8 @@ class Prezzi_disponibilita_model extends CI_Model {
 
                 $tableau[$tipologia_id] = $appoggio[$tipologia_id]['0']->somma_tipologia;
 
+                
+                
 
 
 // prezzo 
@@ -523,6 +552,27 @@ class Prezzi_disponibilita_model extends CI_Model {
                     $totale_prezzo[$tipologia_id] = $this->rs_cambia_prezzo($hotel_id, $tipologia_id);
                 }
 
+ // se è un evento metto il prezzo 
+                
+                if(!empty($ref_event) && isset($ref_event))
+{
+$totale_prezzo[$tipologia_id]   =  $this->prezzo_eventi($T1,$hotel_id, $today,  $ref_event ) ;
+
+}
+
+              
+// setto l'errore
+                if ($totale_prezzo[$tipologia_id] > 1) {
+                    $errore_booking = 0;
+                } else {
+                    $errore_booking = 1;
+                }
+
+                if ($this->tot_cam_libere >= 0) {
+                    $errore_booking = 0;
+                } else {
+                    $errore_booking = 1;
+                }
 
 // creo Ouput                
 
@@ -531,6 +581,7 @@ class Prezzi_disponibilita_model extends CI_Model {
                     'prezzo_giorno' => $totale_prezzo,
                     'tableau_dett' => $tableau,
                     'nome_tipologia' => $nome_tipologia,
+                    'errore_booking' => $errore_booking,
                     // area disponibilita
                     'tot_cam_opzione' => $this->tot_cam_in_opzione,
                     'tot_cam_in_arrivo' => $this->tot_cam_in_arrivo,
@@ -655,9 +706,21 @@ class Prezzi_disponibilita_model extends CI_Model {
     
     
     
-    public function prezzo_web($hotel_id, $today, $includi_prezzi = 0) {
+    public function prezzo_web($hotel_id, $preno_dal,$preno_al , $includi_prezzi = 0) {
         
-      $prezzo_hotel  =  prezzo_hotel($hotel_id, $today, $includi_prezzi = 0) ;
+        
+
+        
+     while($preno_dal < $preno_al ) {
+         
+         $prezzo_hotel  =  prezzo_hotel($hotel_id, $today, $includi_prezzi = 1, $ref_event = NULL);
+         
+         $preno_dal  = somma_gg($preno_dal,1) ;
+       }
+
+        
+        
+    
       
       
 //      Array
@@ -697,7 +760,7 @@ class Prezzi_disponibilita_model extends CI_Model {
 //            [5] => Quadrupla
 //            [8] => Quintupla
 //        )
-//
+//    [errore_booking] => 0
 //    [tot_cam_opzione] => 0
 //    [tot_cam_in_arrivo] => 13
 //    [tot_cam_presenti] => 22
@@ -712,14 +775,16 @@ class Prezzi_disponibilita_model extends CI_Model {
 
       
       
-      
-      
-      
-      
-      
         
     }
     
     
 
+    
+    
+    
+
+
+    
+    
 }
