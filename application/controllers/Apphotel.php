@@ -13,6 +13,9 @@ class Apphotel extends CI_Controller {
         $this->load->model('hotel_model');
         $this->load->model('prodotti_model');
         $this->load->model('pulizia_model');
+        
+        $this->load->model('app_ip_mpdel');
+        
 
 
 //$temi = array( 'tem_cb', 'tem_bc', 'tem_bcb' , 'tem_m' ); 
@@ -29,8 +32,18 @@ class Apphotel extends CI_Controller {
 // 
         $data['hotel_id'] = $hotel_id;
         
-		
-	
+
+$ip_aderss =  $this->input->ip_address();
+$consenti =  $this->app_ip_model->find_by_ip($ip_aderss) ;
+if($consenti){
+$data['ip_consenti']  = 1;
+} else {
+$data['ip_consenti']  = 0 ;
+}
+	   
+                   
+                   
+                   
 		if ( ( !$this->input->get('scelta'))  OR ($this->input->get('scelta') == 'conti_aperti') ) {
 		$data['conti_aperti'] = $this->camere_model->conti_aperti($hotel_id);
 		
@@ -107,6 +120,19 @@ class Apphotel extends CI_Controller {
 	
 
     function risorsa() {
+        
+        $ip_aderss =  $this->input->ip_address();
+$consenti =  $this->app_ip_model->find_by_ip($ip_aderss) ;
+if($consenti){
+$data['ip_consenti']  = 1;
+} else {
+$data['ip_consenti']  = 0 ;
+}
+	   
+           
+        
+        
+        
         $date['today'] = $today = date('Y-m-d');
         if ($this->input->get('hotel_id')) {
             $hotel_id = $this->input->get('hotel_id');
@@ -205,6 +231,21 @@ class Apphotel extends CI_Controller {
     }
 
     function manutenzioni() {
+        
+        
+        $ip_aderss =  $this->input->ip_address();
+$consenti =  $this->app_ip_model->find_by_ip($ip_aderss) ;
+if($consenti){
+$data['ip_consenti']  = 1;
+} else {
+$data['ip_consenti']  = 0 ;
+}
+	   
+           
+        
+        
+        
+        
         $form_guasti = array(
             'hotel_id' => $this->input->post('hotel_id'),
             'camera_id' => $this->input->post('camera_id'),
