@@ -10,6 +10,7 @@ class Adebbiti extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->helper('url');
 		$this->load->model('Adebbiti_model');
+                     $this->load->model('app_ip_model');
 	}	
 	function index()
 	{			

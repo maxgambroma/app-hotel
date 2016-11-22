@@ -135,13 +135,13 @@ foreach ($review as $row) {
                                 <h2><?php echo round($row->Total_score, 2); ?></h2> 
                             </div>
                         </div>
-                        Cliente : <?php echo $row->clienti_cogno; ?>  <small>( <?php echo $row->Nazioni_Descrizione; ?> ) </small> <br>
+                        Cliente : <?php echo $row->clienti_cogno; ?>  <small>( <?php echo $row->cliente_nazione; ?> ) </small> <br>
                         Agenzia : <?php echo $row->agenzia_nome; ?> <br>
                     </div>
                 </div>
                 <div class="row">
                     <div class="large-6 small-4   columns">
-                        Clean:
+                     <span title='pulizia_camera'> Clean:</span>  
                     </div>
                     <div class="large-6  small-8  columns">
                         <div class="review-bar" style="width: <?php echo $row->Clean * 10; ?>%;" > <?php echo round($row->Clean, 2); ?> </div>
@@ -149,7 +149,7 @@ foreach ($review as $row) {
                 </div>
                 <div class="row">
                     <div class="large-6 small-4   columns">
-                        Comfort:
+                        <span title='rumore_camere <?php echo $row->Rumore_camere; ?> + spazio_camera <?php echo $row->Spazio_camera; ?>+ spazi_comuni <?php echo $row->Spazi_comuni; ?>'> Comfort: </span>
                     </div>
                     <div class="large-6  small-8  columns">
                         <div class="review-bar" style="width: <?php echo $row->Comfort * 10; ?>%;" > <?php echo round($row->Comfort, 2); ?> </div>
@@ -157,7 +157,7 @@ foreach ($review as $row) {
                 </div>
                 <div class="row">
                     <div class="large-6 small-4   columns">
-                        Location:
+                        <span title='dintorni'> Location: </span>
                     </div>
                     <div class="large-6 small-8   columns">
                         <div class="review-bar" style="width: <?php echo $row->Location * 10; ?>%;"  > <?php echo round($row->Location, 2); ?> </div>
@@ -165,7 +165,7 @@ foreach ($review as $row) {
                 </div>
                 <div class="row">
                     <div class="large-6 small-4   columns">
-                        Services:
+                       <span title='colazione <?php echo $row->Colazione; ?> + qualita_servizi <?php echo $row->Qualita_servizi; ?> '>  Services: </span>
                     </div>
                     <div class="large-6 small-8   columns">
                         <div class="review-bar"  style="width: <?php echo $row->Services * 10; ?>%;"  > <?php echo round($row->Services, 2); ?> </div>
@@ -173,7 +173,7 @@ foreach ($review as $row) {
                 </div>
                 <div class="row">
                     <div class="large-6  small-4  columns">
-                        Staff:
+                      <span title='accoglienza <?php echo $row->Accoglienza; ?> + competenza_impiegati <?php echo $row->Competenza_impiegati; ?> '>   Staff: </span>
                     </div>
                     <div class="large-6 small-8   columns">
                         <div class="review-bar" style="width: <?php echo $row->Staff * 10; ?>%;"  > <?php echo round($row->Staff, 2); ?> </div>
@@ -181,7 +181,7 @@ foreach ($review as $row) {
                 </div>
                 <div class="row">
                     <div class="large-6 small-4   columns">
-                        Valore/Qualità:
+                       <span title='prezzo_qualita'>  Valore/Qualità: </span>
                     </div>
                     <div class="large-6 small-8   columns">
                         <div class="review-bar"  style="width: <?php echo $row->Value_for_money * 10; ?>%;"  > <?php echo round($row->Value_for_money, 2); ?> </div>
@@ -189,7 +189,7 @@ foreach ($review as $row) {
                 </div>
                 <div class="row">
                     <div class="large-6 small-4   columns">
-                        Raccomandi:
+                      <span title=''>   Raccomandi: </span>
                     </div>
                     <div class="large-6 small-8   columns">
 

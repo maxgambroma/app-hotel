@@ -49,20 +49,9 @@ class App_ip extends CI_Controller {
                 
                 $data['rs_app_ip'] =   $this->app_ip_model->find_limit($limit , $offset);
                
-		// scegli il templete
-		$temi = 'tem_bcb';
-		// carica la vista del contenuto
-		$vista = 'app_ip_list'; 
-		// gestore templete
-                $data['temp'] = array
-                ('templete' => $temi, 
-                'contenuto' => $vista, 
-                'bar_1' => 'bar_1',
-                'bar_2' => 'bar_2',
-                'box_top' => 'box_top' );
-                $this->load->view('templetes', $data);		
+				
 
-                 //$this->load->view('app_ip_list.php');    
+                $this->load->view('app_ip_list.php', $data);    
                 
 	}
 
@@ -74,29 +63,17 @@ class App_ip extends CI_Controller {
 	{			
 		$this->form_validation->set_rules('app_ip_id', 'lang:app_ip_id', 'trim');			
 		$this->form_validation->set_rules('ip_aderss', 'lang:ip_aderss', 'required|trim');			
-		$this->form_validation->set_rules('Livello', 'lang:Livello', 'required|trim');			
-		$this->form_validation->set_rules('data', 'lang:data', 'required|trim');
+		$this->form_validation->set_rules('Livello', 'lang:Livello', 'trim');			
+		$this->form_validation->set_rules('data', 'lang:data', 'trim');
 			
 		$this->form_validation->set_error_delimiters('<span class="error">', '</span> <br />');
 	
 		if ($this->form_validation->run() == FALSE) // validation hasn't been passed
 		{
-			
-		// scegli il templete
-		$temi = 'tem_bcb';
-		// carica la vista del contenuto
-		$vista = 'app_ip_add';
-		// gestore templete
+		
+        	
 
-		$data['temp'] = array
-                ('templete' => $temi, 
-                'contenuto' => $vista, 
-                'bar_1' => 'bar_1',
-                'bar_2' => 'bar_2',
-                'box_top' => 'box_top' );
-                $this->load->view('templetes', $data);		
-
-               //$this->load->view('app_ip_add');
+               $this->load->view('app_ip_add');
 
 		}
 		else // passed validation proceed to post success logic
@@ -104,10 +81,10 @@ class App_ip extends CI_Controller {
 		 	// build array for the model
 			
 			$form_data = array(
-			 'app_ip_id' => set_value('app_ip_id'),
+			// 'app_ip_id' => set_value('app_ip_id'),
 			 'ip_aderss' => set_value('ip_aderss'),
 			 'Livello' => set_value('Livello'),
-			 'data' => set_value('data')
+			// 'data' => set_value('data')
 						);
 					
 			// run insert model to write data to db
@@ -133,15 +110,15 @@ class App_ip extends CI_Controller {
             {			
 		$this->form_validation->set_rules('app_ip_id', 'lang:app_ip_id', 'trim');			
 		$this->form_validation->set_rules('ip_aderss', 'lang:ip_aderss', 'required|trim');			
-		$this->form_validation->set_rules('Livello', 'lang:Livello', 'required|trim');			
-		$this->form_validation->set_rules('data', 'lang:data', 'required|trim');
+		$this->form_validation->set_rules('Livello', 'lang:Livello', 'trim');			
+		$this->form_validation->set_rules('data', 'lang:data', 'trim');
 			
 		$this->form_validation->set_error_delimiters('<span class="error">', '</span><br /> ');
 	
 		if ($this->form_validation->run() == FALSE) // validation hasn't been passed
 		{
                        
-                /** function find_by_id('')
+                /** function find_by_id('app_ip_id')
                 * find preno_id
                 * @param $form_data - array
                 * @return object
@@ -151,21 +128,8 @@ class App_ip extends CI_Controller {
                 $app_ip_id = $this->input->get('app_ip_id') ; 
                 $data['rs_app_ip'] =   $this->app_ip_model->find_by_id($app_ip_id);
 
-		// scegli il templete
-		$temi = 'tem_bcb';
-		// carica la vista del contenuto
-		$vista = 'app_ip_edit';
-		// gestore templete
-                
-                $data['temp'] = array
-                ('templete' => $temi, 
-                'contenuto' => $vista, 
-                'bar_1' => 'bar_1',
-                'bar_2' => 'bar_2',
-                'box_top' => 'box_top' );
-                $this->load->view('templetes', $data);
-
-		//$this->load->view('app_ip_edit');
+		
+		$this->load->view('app_ip_edit', $data);
 			
 		}
 		else // passed validation proceed to post success logic
@@ -173,10 +137,10 @@ class App_ip extends CI_Controller {
 		 	// build array for the model
 			
 			$form_data = array(
-			      	'app_ip_id' => set_value('app_ip_id'),
+			     // 	'app_ip_id' => set_value('app_ip_id'),
 			      	'ip_aderss' => set_value('ip_aderss'),
 			      	'Livello' => set_value('Livello'),
-			      	'data' => set_value('data')
+			      //	'data' => set_value('data')
                     );
 					
 			// run insert model to write data to db

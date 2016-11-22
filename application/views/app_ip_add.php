@@ -19,12 +19,11 @@
         <?php echo form_error('Livello'); ?>
         <?php // Change the values in this array to populate your dropdown as required ?>
         <?php 
-                    // $options = array('' => 'Please Select'    
-                    //                   );
-                    // or FORM DB
-                        foreach ($rs_data as $value) {
-                        $options[$value->id] = $value->nome;
-                        }
+                        $options = array('50' => 'Master', 
+                        '51' => 'Personale'
+                        );
+       
+         
                       ?>
        <?php echo form_dropdown('Livello', $options, set_value('Livello'))?>
 </p>                                             

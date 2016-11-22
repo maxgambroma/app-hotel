@@ -7,6 +7,8 @@ class Review extends CI_Controller {
         $this->load->model('camere_model');
         $this->load->model('hotel_model');
 		 $this->load->model('review_model');
+                      $this->load->model('app_ip_model');
+                            $this->load->model('app_ip_model');
 		 
 		// review_list($hotel_id)
 		// review_camara($hotel_id , $camera_id )
@@ -23,6 +25,16 @@ class Review extends CI_Controller {
 		}
 		$date['today'] = $today = date('Y-m-d');  
 		$data['hotel_id'] = $hotel_id;
+                
+                        $ip_aderss = $this->input->ip_address();
+        $consenti = $this->app_ip_model->find_by_ip($ip_aderss);
+        if ($consenti) {
+            $data['ip_consenti'] = 1;
+        } else {
+            $data['ip_consenti'] = 0;
+        }
+
+                
 		
 		$tex['review'] = 'Review';
 		$data['menu'] = $tex;

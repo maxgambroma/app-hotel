@@ -3,15 +3,9 @@
  * $data['temp'] = array('templete' => $temi, 'contenuto' => 'contenuto', 'bar1' => '', 'bar2' => '' );
 */
 ?>
-<?php $this->load->view('sections/head_html'); ?>
-<?php $this->load->view('sections/head'); ?>
+<?php $this->load->view('sections/head_html_guest'); ?>
+<?php $this->load->view('sections/head_guest'); ?>
 <?php 
-
-// nacondo da ip
-
-if($ip_consenti===1)
-{
-
 if( $temp['templete'] == 'tem_cb' )
 {  
     $this->load->view('sections/tem_cb'); 
@@ -40,10 +34,8 @@ if( $temp['templete'] == 'tem_full' )
     $this->load->view('sections/tem_full'); 
 }
 
-}
-
 ?>
 <?php //$this->load->view('sections/panel'); ?>  
-<?php $this->load->view('sections/footer'); ?>  
+<?php $this->load->view('sections/footer_guest'); ?>  
 <?php $this->load->view('sections/footer_scripts'); ?>
 <?php // $this->output->enable_profiler(TRUE); ?>

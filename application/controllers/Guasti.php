@@ -8,6 +8,7 @@ class Guasti extends CI_Controller {
         $this->load->model('guasti_model');
         $this->load->model('pulizia_model');
         $this->load->model('hotel_model');
+             $this->load->model('app_ip_model');
     }
 
     /*
@@ -27,6 +28,18 @@ class Guasti extends CI_Controller {
         $date['today'] = $today = date('Y-m-d');
         $data['hotel_id'] = $hotel_id;
 
+        
+        
+        $ip_aderss = $this->input->ip_address();
+        $consenti = $this->app_ip_model->find_by_ip($ip_aderss);
+        if ($consenti) {
+            $data['ip_consenti'] = 1;
+        } else {
+            $data['ip_consenti'] = 0;
+        }
+        
+        
+        
         $data['guasti'] = $this->guasti_model->guasti_stato($hotel_id);
         $data['guasti_area'] = $this->guasti_model->guasti_area($hotel_id);
 
@@ -58,6 +71,17 @@ class Guasti extends CI_Controller {
         }
         $date['today'] = $today = date('Y-m-d');
         $data['hotel_id'] = $hotel_id;
+        
+        
+        
+        $ip_aderss = $this->input->ip_address();
+        $consenti = $this->app_ip_model->find_by_ip($ip_aderss);
+        if ($consenti) {
+            $data['ip_consenti'] = 1;
+        } else {
+            $data['ip_consenti'] = 0;
+        }
+        
 
         $data['guasti'] = $this->guasti_model->guasti_stato($hotel_id);
 
@@ -87,6 +111,16 @@ class Guasti extends CI_Controller {
 
         $date['today'] = $today = date('Y-m-d');
         $data['hotel_id'] = $hotel_id;
+                
+         
+        $ip_aderss = $this->input->ip_address();
+        $consenti = $this->app_ip_model->find_by_ip($ip_aderss);
+        if ($consenti) {
+            $data['ip_consenti'] = 1;
+        } else {
+            $data['ip_consenti'] = 0;
+        }       
+                
 
         /*
          * trovo i guasti aperti
@@ -122,6 +156,18 @@ class Guasti extends CI_Controller {
         }
         $date['today'] = $today = date('Y-m-d');
         $data['hotel_id'] = $hotel_id;
+        
+        
+        
+        $ip_aderss = $this->input->ip_address();
+        $consenti = $this->app_ip_model->find_by_ip($ip_aderss);
+        if ($consenti) {
+            $data['ip_consenti'] = 1;
+        } else {
+            $data['ip_consenti'] = 0;
+        }
+        
+        
 
         $camera_id = $this->input->get('camera_id');
 
@@ -170,6 +216,15 @@ class Guasti extends CI_Controller {
         $date['today'] = $today = date('Y-m-d');
         $data['hotel_id'] = $hotel_id;
 
+        
+        $ip_aderss = $this->input->ip_address();
+        $consenti = $this->app_ip_model->find_by_ip($ip_aderss);
+        if ($consenti) {
+            $data['ip_consenti'] = 1;
+        } else {
+            $data['ip_consenti'] = 0;
+        }
+        
 
         /*
          * trovo i guasti aperti

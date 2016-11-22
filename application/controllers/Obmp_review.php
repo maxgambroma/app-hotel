@@ -15,6 +15,7 @@ class Obmp_review extends CI_Controller {
         $this->load->helper('language');
        // $idiom = $this->session->get_userdata('language');  
         $this->load->model('hotel_model');
+             $this->load->model('app_ip_model');
    
         
       //  $idiom = 'english';
@@ -38,9 +39,20 @@ class Obmp_review extends CI_Controller {
         }
         $date['today'] = $today = date('Y-m-d');
         $data['hotel_id'] = $hotel_id;
+        
+        
+        
+        $ip_aderss = $this->input->ip_address();
+        $consenti = $this->app_ip_model->find_by_ip($ip_aderss);
+        if ($consenti) {
+            $data['ip_consenti'] = 1;
+        } else {
+            $data['ip_consenti'] = 0;
+        }
+        
 
 
-        $limit = 15;
+        $limit = 30;
         $this->cont_record = $this->obmp_review_model->record_count();
 
         $config['base_url'] = base_url() . 'index.php/obmp_review';
@@ -81,6 +93,16 @@ class Obmp_review extends CI_Controller {
      */
     function insert() {
 
+        
+        
+        $ip_aderss = $this->input->ip_address();
+        $consenti = $this->app_ip_model->find_by_ip($ip_aderss);
+        if ($consenti) {
+            $data['ip_consenti'] = 1;
+        } else {
+            $data['ip_consenti'] = 0;
+        }
+        
         
          $date['today'] = $today = date('Y-m-d');
                 
@@ -237,6 +259,15 @@ class Obmp_review extends CI_Controller {
         $date['today'] = $today = date('Y-m-d');
         $data['hotel_id'] = $hotel_id;
 
+        
+        
+        $ip_aderss = $this->input->ip_address();
+        $consenti = $this->app_ip_model->find_by_ip($ip_aderss);
+        if ($consenti) {
+            $data['ip_consenti'] = 1;
+        } else {
+            $data['ip_consenti'] = 0;
+        }
         
         
         $clienti_id = '';

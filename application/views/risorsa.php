@@ -222,6 +222,8 @@ $today = date('Y-m-d');
         <legend>Riepiloghi</legend>   
 
         <div class="large-12 columns ">
+            
+            
             <ul class="tabs" data-tab>
                 <li class="tab-title active"><a href="#panel1"><img src="<?php echo base_url(); ?>/asset/img/-Pulizia50.jpg" width="30" height="30" alt="-Pulizia50"/>
                     </a></li>

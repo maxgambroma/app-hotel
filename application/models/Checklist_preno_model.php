@@ -1,7 +1,6 @@
-
-           <?php
-// App_ip_model.php
-class App_ip_model extends CI_Model {
+<?php
+// Checklist_preno_model.php
+class Checklist_preno_model extends CI_Model {
 
 	function __construct()
 	{
@@ -19,7 +18,7 @@ class App_ip_model extends CI_Model {
 	
 	public function find()
             {
-                return $this->db->get('app_ip')->result() ;
+                return $this->db->get( 'checklist_preno' )->result() ;
             }
 
       /** 
@@ -33,7 +32,7 @@ class App_ip_model extends CI_Model {
             {
                 $query= $this->db->query("
                 SELECT *
-                FROM app_ip
+                FROM checklist_preno
                 LIMIT $offset , $limit "); 
                 return   $query->result();
             }
@@ -47,24 +46,24 @@ class App_ip_model extends CI_Model {
 	
         public function record_count()
             {
-                return $this->db->count_all('app_ip');
+                return $this->db->count_all('checklist_preno');
             }
 
 	/** 
-       * function find_by_id($app_ip_id)
-       * find app_ip_id
+       * function find_by_id($checklist)
+       * find checklist
        * @param $form_data - array
        * @return object
        */
 
-	public function find_by_id($app_ip_id)
+	public function find_by_id($checklist)
             {	
-                return $this->db->get_where( 'app_ip' , array('app_ip_id' => $app_ip_id ))->row();
+                return $this->db->get_where( 'checklist_preno' , array('checklist' => $checklist ))->row();
             }
 
         /** 
        * function insert($data)
-       * insert to app_ip data
+       * insert to checklist_preno data
        * @param $form_data - array
        * @return object
        */
@@ -72,58 +71,46 @@ class App_ip_model extends CI_Model {
 	public function insert($data)
             {
                 $this->db->set($data);
-                $this->db->insert('app_ip');
+                $this->db->insert('checklist_preno');
                 return $this->db->insert_id();
             }
 		
         /** 
-       * function update($app_ip_id, $data)
-       * insert update app_ip_idform data
+       * function update($checklist, $data)
+       * insert update checklistform data
        * @param $form_data 
        * @return id
        */
 		
-	public function update($app_ip_id, $data)
+	public function update($checklist, $data)
             {
-                $this->db->where('app_ip_id', $app_ip_id);
+                $this->db->where('checklist', $checklist);
                 $this->db->set($data);
-                $this->db->update('app_ip');
+                $this->db->update('checklist_preno');
                 return $this->db->affected_rows();
             }
 
 		/** 
-       * function delete($app_ip_id)
-       * delete form app_ip data
+       * function delete($checklist)
+       * delete form checklist_preno data
        * @param 
        * @return 
        */
 
-	public function delete($app_ip_id)
+	public function delete($checklist)
             {
-                $this->db->where('app_ip_id', $app_ip_id);
-                $this->db->delete('app_ip');
+                $this->db->where('checklist', $checklist);
+                $this->db->delete('checklist_preno');
                 return $this->db->affected_rows();
-            } 
-            
-            
-            
-            	public function find_by_ip($ip_aderss)
-            {	
-                $query= $this->db->query("
-                 SELECT
-                usr_web1_3.app_ip.ip_aderss,
-                usr_web1_3.app_ip.app_ip_id,
-                usr_web1_3.app_ip.Livello,
-                usr_web1_3.app_ip.data
-                FROM
-                usr_web1_3.app_ip
-                WHERE
-                usr_web1_3.app_ip.ip_aderss = '$ip_aderss'
-                 "); 
-                return   $query->row();
             }
-
+	
             
+            
+            
+            
+            
+            
+
             
             
 }

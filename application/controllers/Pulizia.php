@@ -10,6 +10,7 @@ class Pulizia extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->helper('url');
 		 $this->load->model('pulizia_model');
+                      $this->load->model('app_ip_model');
 	}
 
 	
@@ -37,6 +38,14 @@ $date['today'] = $today = date('Y-m-d');
 $data['hotel_id'] = $hotel_id;
 $data['pulizie'] = $this->pulizia_model->pulizia_note($hotel_id);
 
+
+        $ip_aderss = $this->input->ip_address();
+        $consenti = $this->app_ip_model->find_by_ip($ip_aderss);
+        if ($consenti) {
+            $data['ip_consenti'] = 1;
+        } else {
+            $data['ip_consenti'] = 0;
+        }
 	
 	
 
