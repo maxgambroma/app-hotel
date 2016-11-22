@@ -705,81 +705,89 @@ $totale_prezzo[$tipologia_id]   =  $this->prezzo_eventi($T1,$hotel_id, $today,  
     }
     
     
+    /**
+     * Cerco le tariffe dei singoli giorni di soggiorno 
+     * @param type $hotel_id
+     * @param type $preno_dal
+     * @param type $preno_al
+     * @param int $includi_prezzi
+     */
     
-    public function prezzo_web($hotel_id, $preno_dal,$preno_al , $includi_prezzi = 0) {
-        
-        
-
-        
-     while($preno_dal < $preno_al ) {
-         
-         $prezzo_hotel  =  prezzo_hotel($hotel_id, $today, $includi_prezzi = 1, $ref_event = NULL);
-         
-         $preno_dal  = somma_gg($preno_dal,1) ;
-       }
-
-        
-        
     
-      
-      
-//      Array
-//(
-//    [prezzo_giorno] => Array
-//        (
-//            [7] => 105
-//            [1] => 100
-//            [3] => 119
-//            [9] => 138
-//            [2] => 119
-//            [4] => 138
-//            [5] => 152
-//            [8] => 180
-//        )
-//
-//    [tableau_dett] => Array
-//        (
-//            [7] => 12
-//            [1] => 3
-//            [3] => 3
-//            [9] => 0
-//            [2] => 6
-//            [4] => 1
-//            [5] => 0
-//            [8] => 0
-//        )
-//
-//    [nome_tipologia] => Array
-//        (
-//            [7] => Doppia Uso
-//            [1] => Singola
-//            [3] => Matrimoniale
-//            [9] => Matri Balcone
-//            [2] => Doppia
-//            [4] => Tripla
-//            [5] => Quadrupla
-//            [8] => Quintupla
-//        )
-//    [errore_booking] => 0
-//    [tot_cam_opzione] => 0
-//    [tot_cam_in_arrivo] => 13
-//    [tot_cam_presenti] => 22
-//    [tot_cam_giorno] => 35
-//    [tot_cam_libere] => 12
-//    [style_colore] => yellow
-//    [tot_occ_percetuale_hotel] => 0.74468085106383
-//    [diff_gg_preno] => 0
-//    [hotel_tarif_cambia_gg] => -1
-//    [hotel_disp_modo] => 1
-//)
+    public function prezzo_web($hotel_id, $preno_dal, $preno_al, $includi_prezzi = 0) {
 
-      
-      
+$oggi  = $preno_dal; 
+
+// scorro le date per le array 
+        while ($oggi < $preno_al) {
+
+$giorno = prezzo_hotel($hotel_id, $today, $includi_prezzi = 1, $ref_event = NULL);
+
+// array KW prezzi tipologia giorno 
+            foreach ($giorno->prezzo_giorno as $key => $value) {
+                $prezzo_giorno[$key][$oggi] = $value;
+            }
+// array KW tableau_dett giornaliarei
+            foreach ($giorno->tableau_dett as $key => $value) {
+                $tableau_dett[$key][$oggi] = $value;
+            }
+
+// array giorno
+            
+         $errore_booking[$oggi] = $giorno->errore_booking;
+         $tot_cam_opzione[$oggi] = $giorno->tot_cam_opzione ;
+         $tot_cam_in_arrivo[$oggi] = $giorno->errore_booking ;
+         $tot_cam_presenti[$oggi] = $giorno->errore_booking ;
+         $tot_cam_giorno[$oggi] = $giorno->errore_booking ;
+         $tot_cam_libere[$oggi] = $giorno->errore_booking ; 
+         $style_colore[$oggi] = $giorno->errore_booking ;
+         $tot_occ_percetuale_hotel[$oggi] = $giorno->errore_booking ;
+          
+
+            $preno_dal = $this->somma_gg($preno_dal, 1);
+        }
+
+        $diff_gg_preno = $giorno[0]->$diff_gg_preno;  
+        $hotel_tarif_cambia_gg = $giorno[0]->$hotel_tarif_cambia_gg;
+        $nome_tipologia = $giorno[0]->$$nome_tipologia;
+        $hotel_numero_camere= $giorno[0]->hotel_numero_camere;
+        $hotel_disp_modo = $giorno[0]->hotel_disp_modo;
+        
+                $array_totale_risultati = array(
+                    // area prezzi
+                    'prezzo_giorno' => $prezzo_giorno,
+                    'tableau_dett' => $tableau_dett,
+                    'nome_tipologia' => $nome_tipologia,
+                    'errore_booking' => $errore_booking,
+                    // area disponibilita
+                   // 'tot_cam_opzione' => $tot_cam_in_opzione,
+                    'tot_cam_in_arrivo' => $tot_cam_in_arrivo,
+                    'tot_cam_presenti' => $tot_cam_presenti,
+                   // 'preno_gia_arrivati' => $preno_gia_arrivati,
+                   // 'tot_cam_giorno' => $tot_cam_occupate,
+                    'tot_cam_libere' => $tot_cam_libere,
+                  //  'style_colore' => $style,
+                    'hotel_numero_camere' => $hotel_numero_camere,
+                    'tot_occ_percetuale_hotel' => $tot_occ_percetuale_hotel,
+                    'diff_gg_preno' => $diff_gg_preno,
+                    'hotel_tarif_cambia_gg' => $hotel_tarif_cambia_gg,
+                    'hotel_disp_modo' => $hotel_disp_modo
+                );
+        
+        
+                return $array_totale_risultati;
         
     }
     
     
+function somma_gg($OGGI, $gg) {
+        $appoggio = explode('-', $OGGI);
+        $anno = $appoggio[0];
+        $mese = $appoggio[1];
+        $giorno = $appoggio[2];
 
+        return $data_gg = date("Y-m-d", mktime(0, 0, 0, $mese, ($giorno + $gg), $anno));
+    }
     
     
     

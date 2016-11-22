@@ -62,3 +62,8 @@ $lang['ip_review'] ='Ip_review';
 $lang['data_review'] ='Data_review';
 $lang['review_data_record'] ='Review_data_record';
 
+
+$lang['app_ip_id'] = 'App_ip_id';
+$lang['ip_aderss'] = 'Ip_aderss';
+$lang['Livello'] = 'Livello';
+$lang['data'] = 'Data';

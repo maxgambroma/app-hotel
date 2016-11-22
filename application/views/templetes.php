@@ -6,6 +6,12 @@
 <?php $this->load->view('sections/head_html'); ?>
 <?php $this->load->view('sections/head'); ?>
 <?php 
+
+
+
+
+
+
 if( $temp['templete'] == 'tem_cb' )
 {  
     $this->load->view('sections/tem_cb'); 
@@ -33,6 +39,8 @@ if( $temp['templete'] == 'tem_full' )
 {  
     $this->load->view('sections/tem_full'); 
 }
+
+
 
 ?>
 <?php //$this->load->view('sections/panel'); ?>  
