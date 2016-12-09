@@ -130,7 +130,7 @@ class Obmp extends CI_Controller {
         $data['camere_obmp'] = $this->prezzi_disponibilita_model->camere_obmp($hotel_id, $tipologia_id = NULL, $agenzia_id = 279, $lg , $stato ); 
         $data['prezzi'] = $this->prezzi_disponibilita_model->prezzo_web($hotel_id, $preno_dal, $preno_al, $includi_prezzi = 1, $ref_event);
 
-      $evento_html =   $this->evento_html($hotel_id, $ref_event);  
+    $evento_html =   $this->evento_html($hotel_id, $ref_event);  
     $data['table_evento'] = $evento_html['table_evento'];
       
         
@@ -627,13 +627,12 @@ class Obmp extends CI_Controller {
      */
      
     
-  private  function get_agenzia() {
+ private  function get_agenzia() {
       
-      
+      $agenzia_id = 279;
   //se esiste un sito di affiliazione si setta in cookie dell sito di provenienza     
       if ( $this->input->get_post('agenzia_id')) {
             if ( !$this->input->cookie('agenzia_id') ) {
-
                 $cookie_nome = "agenzia_id";
                 if ($this->input->get_post('agenzia_id')!== null ) {
                     $cookie_valore = $this->input->get_post('agenzia_id');
@@ -647,7 +646,6 @@ class Obmp extends CI_Controller {
                 
             }
 //fine // ref_event facoltativo 
-
   
         } else {
             if ( $this->input->cookie('agenzia_id') ) {
@@ -668,7 +666,7 @@ class Obmp extends CI_Controller {
         return $agenzia_id ;  
         
     }
-
+    
     
     
     /**
@@ -745,21 +743,17 @@ class Obmp extends CI_Controller {
 
     
     /**
-     * 
+     * ref_event=339
      * @param type $hotel_id
      * @param type $ref_event
      * @return type
      */
     
-   private function evento_html($hotel_id, $ref_event) {
-
+ private function evento_html($hotel_id, $ref_event) {
        $row =  $this->obmp_ref_event_model->controlla_evento($hotel_id, $ref_event) ; 
        
-
         if ( $row) {
-
             $agenzia_id = $row->agenzia_id;
-
            $table_evento = "<div class=\"evento\">You Welcome Participants of Meeting<br> <table width=\"100%\" border=\"0\">
 <tr>
 <td bgcolor=\"#FF99CC\"><strong>" . $row->ref_event_nome .
@@ -777,7 +771,6 @@ class Obmp extends CI_Controller {
         
         return $evento;
     }
-
     
     
     /**
@@ -816,7 +809,7 @@ class Obmp extends CI_Controller {
    /**
      *  imserico le richiestrte del db
      * @param type $param
-     * @return int
+     * @return array
      */
    
 
