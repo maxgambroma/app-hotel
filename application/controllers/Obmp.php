@@ -224,7 +224,7 @@ class Obmp extends CI_Controller {
 
 // Sovrascrivo
 // per trovare i valori delle camare prenotate 
-
+// provo
         $this->form_validation->set_rules('preno_arr_ore', 'lang:preno_arr_ore', 'trim');
         $this->form_validation->set_rules('t1', 't1', 'trim|xss_clean');
         $this->form_validation->set_rules('q1', 'q1', 'trim|xss_clean');
